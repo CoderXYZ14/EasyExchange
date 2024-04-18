@@ -101,6 +101,7 @@ router.put("/", authMidlleware, async (req, res) => {
   });
 });
 
+//find users like to just tupe sha and get all users which has sha in name
 router.get("/bulk", async (req, res) => {
   const filter = req.query.filter || "";
   const users = await User.find({
