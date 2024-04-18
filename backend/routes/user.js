@@ -1,7 +1,7 @@
 const express = require("express");
 const zod = require("zod");
 const jwt = require("jsonwebtoken");
-const { User } = require("../db");
+const { User, Accounts } = require("../db");
 const router = express.Router();
 const { JWT_SECRET } = require("../config");
 const { authMidlleware } = require("../middleware");
@@ -31,6 +31,13 @@ router.post("/signup", async (req, res) => {
     });
   }
   const dbUser = await User.create(body);
+  //adding balance to account
+  const userId = user._id;
+  await Account.create({
+    userId,
+    balance: 1 + Math.random() * 10000,
+  });
+
   const token = jwt.sign(
     {
       userId: dbUser._id,
@@ -53,7 +60,7 @@ router.post("/signin", async (req, res) => {
   const { success } = signinSchema.safeParse(body);
   if (!success) {
     return res.status(411).json({
-      message: "Incorrwct input",
+      message: "Incorrect input",
     });
   }
   const dbUser = await User.findOne({

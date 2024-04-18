@@ -32,6 +32,10 @@ const userSchema = new mongoose.Schema({
 });
 
 //bank related Schema
+// {
+// 	userId: ObjectId (or string),
+// 	balance: float/number
+// }
 const accountSchema = mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
@@ -45,4 +49,4 @@ const accountSchema = mongoose.Schema({
 });
 const User = mongoose.model("User", userSchema);
 const Account = mongoose.model("Account", accountSchema);
-module.exports = { User };
+module.exports = { User, Accounts };
