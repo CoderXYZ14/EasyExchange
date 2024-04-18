@@ -47,7 +47,7 @@ const signinSchema = zod.object({
 });
 router.post("/signin", async (req, res) => {
   const body = req.body;
-  const { success } = signinSchema.safeParse(req.body);
+  const { success } = signinSchema.safeParse(body);
   if (!success) {
     return res.status(411).json({
       message: "Incorrwct input",
