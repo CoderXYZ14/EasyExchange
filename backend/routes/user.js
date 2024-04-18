@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken");
 const { User } = require("../db");
 const router = express.Router();
 const { JWT_SECRET } = require("../config");
+const { authMidlleware } = require("../middleware");
 
+//signup
 const signupSchema = zod.object({
   username: zod.string().email(),
   password: zod.string(),
@@ -41,6 +43,7 @@ router.post("/signup", async (req, res) => {
   });
 });
 
+//signin
 const signinSchema = zod.object({
   username: zod.string().email,
   password: zod.string(),
@@ -71,6 +74,30 @@ router.post("/signin", async (req, res) => {
   }
   res.status(411).json({
     message: "Error while loggin in",
+  });
+});
+
+const updateSchema = zod.object({
+  password: zod.string().optional(),
+  firstName: zod.string().optional(),
+  lastName: zod.string().optional(),
+});
+router.put("/", authMidlleware, async (req, res) => {
+  const body = req.body;
+  const { success } = updateSchema.safeParse(body);
+  if (!success) {
+    res.status(411).json({
+      message: "Error while updating info",
+    });
+  }
+  await User.updateOne(
+    {
+      _id: req.userId,
+    },
+    body
+  );
+  res.json({
+    message: "Updated successfully",
   });
 });
 module.exports = router;
