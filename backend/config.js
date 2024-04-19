@@ -1,2 +1,4 @@
-const JWT_SECRET = "shahwaiz";
-module.exports = JWT_SECRET;
+//backend/config.js
+module.exports = {
+  JWT_SECRET: "Shahwaiz_Secret",
+};
