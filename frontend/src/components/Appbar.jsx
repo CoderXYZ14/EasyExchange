@@ -1,4 +1,15 @@
+//import jwt from "jsonwebtoken";
+import { useEffect } from "react";
+import { jwtDecode } from "jwt-decode";
+
 export const Appbar = () => {
+  // Retrieve the token from localStorage
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    const decoded = jwtDecode(token);
+    console.log(decoded);
+  }, []);
+
   return (
     <div className="shadow h-14 flex justify-between">
       <div className="flex flex-col justify-center h-full ml-4">PayTM App</div>
